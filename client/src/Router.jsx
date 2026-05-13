@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import {Host, Play, Root} from "./pages";
+import {Host, Play, Root,Auth} from "./pages";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
             {
                 path: "/host",
                 element: <Host/>
+            },
+            {
+                path: "/auth",
+                element: <Auth />
             }
         ]
     },

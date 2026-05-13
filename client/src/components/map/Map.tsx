@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "./Map.css"
 import type { LatLngExpression } from "leaflet";
-import type { Guess } from "../types";
+import type { Guess } from "../../types";
 
 interface MapProps {
     center: LatLngExpression,

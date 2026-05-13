@@ -1,6 +1,6 @@
 import type { LatLngExpression } from "leaflet";
 import { useState } from "react";
-import Map from "../components/Map"
+import Map from "../components/map/Map"
 import type { Guess } from "../types";
 import { getCountryFromCoordinates } from "../utils/geoAPI";
 import styles from "./Host.module.css"
