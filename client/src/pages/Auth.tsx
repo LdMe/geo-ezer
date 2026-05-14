@@ -1,13 +1,29 @@
 import { useSearchParams } from "react-router"
+import {register,login} from "../utils/backApi"
+import useLocalStorage from "../hooks/useLocalStorage"
+
 export const Auth = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
+    const [token, setToken] = useLocalStorage("token", null)
     const isRegister = searchParams.get("register") === "true"
-    const handleRegister = (data: FormData) => {
-
+    const handleRegister = async (data: FormData) => {
+        const result = await register({
+            username: data.get("name") as string,
+            password: data.get("password") as string,
+            passwordRepeat: data.get("passwordRepeat") as string
+        });
+        console.log(result);
     }
-    const handleLogin = (data: FormData) => {
-
+    const handleLogin = async(data: FormData) => {
+        const result = await login({
+            username: data.get("name") as string,
+            password: data.get("password") as string,
+        })
+        console.log(result);
+        if(result.token){
+            setToken(result.token);
+        }
     }
     const handleSearchParams = ()=>{
         if(isRegister){
@@ -29,8 +45,8 @@ export const Auth = () => {
                 <input type="password" id="password" name="password" />
                 {isRegister && (
                     <>
-                        <label htmlFor="password-confirm">Confirm Password </label>
-                        <input type="password" id="password-confirm" />
+                        <label htmlFor="passwordRepeat">Confirm Password </label>
+                        <input type="password" id="passwordRepeat" name="passwordRepeat"/>
                     </>
                 )}
                 <button type="submit">{isRegister ? "Register" : "Login"}</button>
