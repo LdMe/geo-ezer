@@ -17,7 +17,9 @@ async function login(req,res){
     }
 
     const token = jwt.sign({id:user._id,username:user.username},process.env.JWT_SECRET);
-    res.status(200).json({token});
+    res.cookie("token",token,{httpOnly:true,secure:true,sameSite:"strict",expires:new Date(Date.now()+24*60*60*1000)});
+    res.status(200).json({message:"Login exitoso"});
+    console.log(res.cookies);
 
 }
 
@@ -43,7 +45,12 @@ async function register(req,res){
     
 }
 
+async function logout(req,res){
+    res.clearCookie("token");
+    res.status(200).json({message:"Logout exitoso"});
+}
 export {
     login,
-    register
+    register,
+    logout
 }

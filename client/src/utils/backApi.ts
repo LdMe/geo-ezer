@@ -51,7 +51,8 @@ async function login({ username, password }: LoginData): Promise<LoginResponse> 
             body: JSON.stringify({
                 username,
                 password
-            })
+            }),
+            credentials : "include"
         })
         const data = await response.json();
         if (response.ok) {
@@ -69,23 +70,37 @@ interface FetchOptions {
     headers?: {
         [key: string]: string;
     };
+    credentials?: RequestCredentials;
     body?: string;
 }
 
 async function fetchWithToken(url:string, options:FetchOptions) {
-    const token = localStorage.getItem("token");
-    if (token) {
-        options.headers = {
-            ...options.headers,
-            Authorization: `Bearer ${token}`
-        };
-    }
+    options.credentials = "include";
     return fetch(url, options);
 }
 
+async function whoAmI() {
+    try {
+        const response = await fetchWithToken(`${BACKEND_URL}/whoami`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await response.json();
+        if (response.ok) {
+            return { data }
+        } else {
+            return { error: data }
+        }
+    } catch (error) {
+        return { error: "Error de login" }
+    }
+}
 
 export {
         register,
         login,
-        fetchWithToken
+        fetchWithToken,
+        whoAmI
     }

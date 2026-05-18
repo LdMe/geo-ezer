@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router"
 import {register,login} from "../utils/backApi"
 import useLocalStorage from "../hooks/useLocalStorage"
-
+import AppHeader from "../components/appHeader/AppHeader"
 export const Auth = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -37,6 +37,8 @@ export const Auth = () => {
     }
     return (
         <div>
+
+            <AppHeader/>
             <h1>{isRegister ? "Register" : "Login"}</h1>
             <form action={isRegister ? handleRegister : handleLogin}>
                 <label htmlFor="name">Name</label>
