@@ -1,10 +1,10 @@
 import type { LatLngExpression } from "leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Map from "../components/map/Map"
 import type { Guess } from "../types";
 import { getCountryFromCoordinates } from "../utils/geoAPI";
 import styles from "./Host.module.css"
-
+import {io } from "socket.io-client"
 const defaultGuesses: Guess[] = [
     {
         guessedCoordinate: {
@@ -56,10 +56,34 @@ const defaultGuesses: Guess[] = [
         userId: "7"
     }
 ];
+
+const socket  = io(import.meta.env.VITE_BACKEND_URL);
+
 export const Host = () => {
     const center: LatLngExpression = [43.25562168899, -2.92255995942725];
     const [guesses, setGuesses] = useState(defaultGuesses);
+    const [gameStatus, setGameStatus] = useState("not-started");
+    const [gameCode,setGameCode] = useState("");
+    const [players,setPlayers] = useState([]);
 
+    useEffect(()=>{
+        const handleGameCode = (gameCode)=>{
+            console.log("codigo ",gameCode);
+            setGameCode(gameCode);
+            setGameStatus("lobby");
+
+        }
+        const handleSetPlayersList = (playersList)=>{
+            setPlayers(playersList);
+        }
+        socket.on("gameCode", handleGameCode);
+
+        socket.on("playersList",handleSetPlayersList);
+        return ()=>{
+            socket.off("gameCode", handleGameCode);
+            socket.off("playersList",handleSetPlayersList);
+        }
+    },[])
     const handleAddGuess = async (lat: number, lng: number) => {
         const country = await getCountryFromCoordinates(lat, lng);
         const newGuess: Guess = {
@@ -72,6 +96,29 @@ export const Host = () => {
         }
 
         setGuesses([...guesses, newGuess])
+    }
+    const handleStartGame = () => {
+        socket.emit("startGame");
+    }
+    if(gameStatus==="not-started"){
+        return(
+        <div>   
+            <h1>Host</h1>
+            <button onClick={handleStartGame}>Nueva partida</button>
+
+        </div>
+        )
+    }
+    if(gameStatus==="lobby"){
+        return(
+            <div>
+                <h1>Host</h1>
+                <p>Código de partida: {gameCode}</p>
+                <button>Iniciar partida</button>
+                <h2>Jugadores conectados:</h2>
+                {players.map((player)=><p>{player.username}</p>)}
+            </div>
+        )
     }
     return (
         <div>
