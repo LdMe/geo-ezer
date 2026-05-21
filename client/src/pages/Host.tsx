@@ -1,7 +1,7 @@
 import type { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import Map from "../components/map/Map"
-import type { Guess } from "../types";
+import type { Guess, User } from "../types";
 import { getCountryFromCoordinates } from "../utils/geoAPI";
 import styles from "./Host.module.css"
 import {io } from "socket.io-client"
@@ -64,16 +64,16 @@ export const Host = () => {
     const [guesses, setGuesses] = useState(defaultGuesses);
     const [gameStatus, setGameStatus] = useState("not-started");
     const [gameCode,setGameCode] = useState("");
-    const [players,setPlayers] = useState([]);
+    const [players,setPlayers] = useState<User[]>([]);
 
     useEffect(()=>{
-        const handleGameCode = (gameCode)=>{
+        const handleGameCode = (gameCode: string)=>{
             console.log("codigo ",gameCode);
             setGameCode(gameCode);
             setGameStatus("lobby");
 
         }
-        const handleSetPlayersList = (playersList)=>{
+        const handleSetPlayersList = (playersList: User[])=>{
             setPlayers(playersList);
         }
         socket.on("gameCode", handleGameCode);

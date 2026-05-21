@@ -1,7 +1,6 @@
-import { Outlet,useLoaderData} from "react-router"
+import { Outlet } from "react-router"
 import AppHeader from "../components/appHeader/AppHeader"
 export const Root =()=>{
-    const userData = useLoaderData();
     return(
         <div>
             <AppHeader/>

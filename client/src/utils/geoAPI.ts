@@ -1,4 +1,4 @@
-export async function getCountryFromCoordinates(lat, lng) {
+export async function getCountryFromCoordinates(lat: number, lng: number) {
   // Construimos la URL de Nominatim
   // zoom=3 es suficiente para obtener a nivel de país, lo que hace la petición más rápida
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=3`;

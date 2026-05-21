@@ -5,27 +5,27 @@ export interface Coordinate {
 }
 
 export interface Guess {
-    userId: String,
+    userId: string,
     guessedCoordinate: Coordinate,
     distanceMeters?: number,
     score?: number,
-    country?: String
+    country?: string
 }
 
 export interface User {
-    id: String,
-    username: String
+    id: string,
+    username: string
 }
 
 export interface GeoImage {
-    id: String,
-    imageUrl: String,
+    id: string,
+    imageUrl: string,
     realCoordinate: Coordinate
 }
 
 export interface GameSession {
-    roomId: String,
-    status: String,
+    roomId: string,
+    status: string,
     players: User[],
     guesses: Guess[]
 }

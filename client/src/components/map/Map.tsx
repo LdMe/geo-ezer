@@ -35,12 +35,12 @@ const Map = ({ center, zoom = 10, guesses,onGuess }: MapProps) => {
     )
 }
 
-interface MapClickHAndlerProps {
-    onMapClick: (lat: number, lng: number) => void
+interface MapClickHandlerProps {
+    onMapClick?: (lat: number, lng: number) => void
 }
-const MapClickHandler = ({ onMapClick }: MapClickHAndlerProps) => {
-    const handleMapClick = (e) => {
-        onMapClick(e.latlng.lat, e.latlng.lng)
+const MapClickHandler = ({ onMapClick }: MapClickHandlerProps) => {
+    const handleMapClick = (e: { latlng: { lat: number; lng: number } }) => {
+        onMapClick?.(e.latlng.lat, e.latlng.lng)
     }
     useMapEvents({
         click: handleMapClick

@@ -1,10 +1,10 @@
-import {useState,useEffect, use} from "react"
+import {useState} from "react"
 import { io } from "socket.io-client"
 
 const socket  = io(import.meta.env.VITE_BACKEND_URL);
 
 export const Play = ()=>{
-    const [gameState,setGameState] = useState("not-started");
+    const [gameState] = useState("not-started");
 
     const handleSubmit = (data:FormData)=>{
         socket.emit("joinGame",{

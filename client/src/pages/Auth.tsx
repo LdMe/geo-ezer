@@ -5,7 +5,7 @@ import AppHeader from "../components/appHeader/AppHeader"
 export const Auth = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [token, setToken] = useLocalStorage("token", null)
+    const [, setToken] = useLocalStorage("token", null)
     const isRegister = searchParams.get("register") === "true"
     const handleRegister = async (data: FormData) => {
         const result = await register({
